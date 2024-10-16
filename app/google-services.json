@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "326756045414",
+    "project_id": "trail-runner-e0cca",
+    "storage_bucket": "trail-runner-e0cca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326756045414:android:2c904ca4e77a885d9a53a7",
+        "android_client_info": {
+          "package_name": "com.example.trailrunner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAmb8dM1xGrAlHPpXI7owEbqMm-mBEaws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
