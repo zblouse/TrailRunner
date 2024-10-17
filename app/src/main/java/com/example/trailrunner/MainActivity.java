@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            System.out.println("Source: " + source);
+            System.out.println("Source: " + source + " UID: " + user.getUid());
             // ...
         } else {
             // Sign in failed. If response is null the user canceled the
