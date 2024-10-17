@@ -12,7 +12,20 @@
           "package_name": "com.example.trailrunner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "326756045414-onjvagfbs2a02a6kbe2l73li9np4lkj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.trailrunner",
+            "certificate_hash": "25aafc2c2f3426f843811fcd76897807f0847aa0"
+          }
+        },
+        {
+          "client_id": "326756045414-kvqlr7m77jrr95q249n4mvpqsifk4qm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDAmb8dM1xGrAlHPpXI7owEbqMm-mBEaws"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "326756045414-kvqlr7m77jrr95q249n4mvpqsifk4qm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
