@@ -1,8 +1,11 @@
 package com.example.trailrunner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,5 +55,14 @@ public class ViewTrailsActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+        Button createCustomTrailButton = findViewById(R.id.create_trail_button);
+        createCustomTrailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendToCreateTrailActivity = new Intent(ViewTrailsActivity.this, CreateTrailActivity.class);
+                startActivity(sendToCreateTrailActivity);
+            }
+        });
     }
 }

@@ -46,4 +46,11 @@
         android:layout_gravity="center"
         android:text="Select Trail"/>
 
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Logout"/>
+
 </LinearLayout>

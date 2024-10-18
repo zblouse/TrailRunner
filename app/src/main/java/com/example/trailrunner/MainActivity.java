@@ -82,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            Intent sendToUserHomeIntent = new Intent(MainActivity.this, UserHomeActivity.class);
+            startActivity(sendToUserHomeIntent);
+        }
+
         trailDatabaseHelper = new TrailDatabaseHelper(context);
 
         Button loginButton = findViewById(R.id.login_button);

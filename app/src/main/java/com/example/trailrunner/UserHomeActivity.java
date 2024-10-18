@@ -18,6 +18,9 @@ import androidx.datastore.preferences.core.PreferencesKeys;
 import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder;
 import androidx.datastore.rxjava3.RxDataStore;
 
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.File;
 import java.util.concurrent.Callable;
 
@@ -61,6 +64,16 @@ public class UserHomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent sendToViewTrailsIntent = new Intent(UserHomeActivity.this, ViewTrailsActivity.class);
                 startActivity(sendToViewTrailsIntent);
+            }
+        });
+
+        Button logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent returnToLoginIntent = new Intent(UserHomeActivity.this, MainActivity.class);
+                startActivity(returnToLoginIntent);
             }
         });
     }
