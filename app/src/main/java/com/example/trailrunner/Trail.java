@@ -77,6 +77,10 @@ public class Trail implements Parcelable, Serializable {
         return this.trailName;
     }
 
+    public void setTrailName(String trailName){
+        this.trailName = trailName;
+    }
+
     public double getTrailDistance(){
         return this.trailDistance;
     }

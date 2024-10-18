@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +29,11 @@ import io.reactivex.rxjava3.core.Single;
  */
 public class TrailViewAdapter extends RecyclerView.Adapter<TrailViewAdapter.ViewHolder> {
 
-    SharedPreferences sharedPref;
     private final List<Trail> trails;
     private final ViewTrailsActivity viewTrailsActivity;
 
-    public TrailViewAdapter(List<Trail> trails, SharedPreferences sharedPref, ViewTrailsActivity viewTrailsActivity){
+    public TrailViewAdapter(List<Trail> trails, ViewTrailsActivity viewTrailsActivity){
         this.trails = trails;
-        this.sharedPref = sharedPref;
         this.viewTrailsActivity = viewTrailsActivity;
     }
 
@@ -54,11 +53,9 @@ public class TrailViewAdapter extends RecyclerView.Adapter<TrailViewAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(viewTrailsActivity.getString(R.string.user_pref_active_trail_key), String.valueOf(trail.getId()));
-                editor.apply();
-                Intent sendToUserHomeIntent = new Intent(viewTrailsActivity, UserHomeActivity.class);
-                viewTrailsActivity.startActivity(sendToUserHomeIntent);
+                Intent sendToTrailManagerActivity = new Intent(viewTrailsActivity, TrailManagerActivity.class);
+                sendToTrailManagerActivity.putExtra("trail", (Parcelable) trail);
+                viewTrailsActivity.startActivity(sendToTrailManagerActivity);
             }
         });
 

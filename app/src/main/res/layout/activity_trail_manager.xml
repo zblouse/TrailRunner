@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:autoSizeTextType="uniform"
+        android:text="Trail Runner"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/trail_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/set_active_trail_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Set As Active Trail"/>
+
+    <Button
+        android:id="@+id/reset_progress_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Reset User Progress"/>
+
+    <Button
+        android:id="@+id/edit_trail_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Edit Trail"/>
+
+    <Button
+        android:id="@+id/delete_trail_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Delete Trail"/>
+
+</LinearLayout>

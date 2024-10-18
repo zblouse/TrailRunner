@@ -72,6 +72,7 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
             } while(trailCursor.moveToNext());
         }
         trailCursor.close();
+        database.close();
         return trailList;
     }
 
@@ -86,7 +87,28 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
                     trailCursor.getDouble(5));
         }
         trailCursor.close();
+        database.close();
         return trail;
+    }
+
+    public void updateTrail(Trail trail){
+        SQLiteDatabase database = getReadableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ID_KEY,trail.getId());
+        contentValues.put(TRAIL_NAME_KEY,trail.getTrailName());
+        contentValues.put(TRAIL_DISTANCE_KEY, trail.getTrailDistance());
+        contentValues.put(TRAIL_DISTANCE_UNIT_KEY, trail.getTrailDistanceUnit());
+        contentValues.put(UID_KEY, trail.getUid());
+        contentValues.put(USER_TRAIL_DISTANCE_KEY, trail.getUserTrailDistance());
+        database.update(TABLE_NAME, contentValues,ID_KEY+"=?",new String[]{String.valueOf(trail.getId())});
+        database.close();
+    }
+
+    public void deleteTrail(Trail trail){
+        SQLiteDatabase database = getReadableDatabase();
+        database.delete(TABLE_NAME,ID_KEY+"=?",new String[]{String.valueOf(trail.getId())});
+        database.close();
     }
 
     public List<Trail> getAllTrails(){
@@ -103,6 +125,7 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
             } while(trailCursor.moveToNext());
         }
         trailCursor.close();
+        database.close();
         return trailList;
     }
 }

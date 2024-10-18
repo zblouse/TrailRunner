@@ -31,7 +31,6 @@ public class ViewTrailsActivity extends AppCompatActivity {
 
     private Context context = this;
     private TrailDatabaseHelper trailDatabaseHelper = new TrailDatabaseHelper(context);
-    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +42,12 @@ public class ViewTrailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        sharedPref = context.getSharedPreferences(getString(R.string.user_prefs), Context.MODE_PRIVATE);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         List<Trail> trails = trailDatabaseHelper.getAllTrailsForUser(user.getUid());
 
         RecyclerView recyclerView = findViewById(R.id.trail_list);
-        TrailViewAdapter trailViewAdapter = new TrailViewAdapter(trails,sharedPref, ViewTrailsActivity.this);
+        TrailViewAdapter trailViewAdapter = new TrailViewAdapter(trails, ViewTrailsActivity.this);
         recyclerView.setAdapter(trailViewAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

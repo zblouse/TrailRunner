@@ -33,6 +33,14 @@
             android:name=".CreateTrailActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".TrailManagerActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".EditTrailActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
