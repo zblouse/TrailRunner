@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Trail Runner</string>
+    <string name="user_prefs">trailrunneruserprefs</string>
+    <string name="user_pref_active_trail_key">trailrunneractivetrail</string>
 </resources>

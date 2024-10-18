@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.credentials.CredentialManager;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -27,7 +26,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Context context = this;
+    private Context context = this;
+    private TrailDatabaseHelper trailDatabaseHelper;
 
     private final ActivityResultLauncher<Intent> createAccountLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
@@ -55,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             System.out.println("Source: " + source + " UID: " + user.getUid());
+            if(source.equals("create")){
+                if(trailDatabaseHelper.getAllTrailsForUser(user.getUid()).isEmpty()){
+                    initializeUserTrails(user.getUid());
+                }
+            }
+            Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
+            startActivity(intent);
             // ...
         } else {
             // Sign in failed. If response is null the user canceled the
@@ -74,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        trailDatabaseHelper = new TrailDatabaseHelper(context);
 
         Button loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -113,5 +122,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void initializeUserTrails(String uid){
+        Trail appalachianTrail = new Trail("Appalachian Trail",2197.4,"Miles",uid,0);
+        trailDatabaseHelper.addTrailToDatabase(appalachianTrail);
+        Trail mountNittanyLoopTrail = new Trail("Mount Nittany Loop", 5, "Miles", uid,0);
+        trailDatabaseHelper.addTrailToDatabase(mountNittanyLoopTrail);
+        Trail pacificCrestTrail = new Trail("Pacific Crest Trail", 2650, "Miles", uid, 0);
+        trailDatabaseHelper.addTrailToDatabase(pacificCrestTrail);
     }
 }

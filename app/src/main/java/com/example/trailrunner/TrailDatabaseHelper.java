@@ -74,4 +74,35 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         trailCursor.close();
         return trailList;
     }
+
+    public Trail getTrailById(String id){
+        SQLiteDatabase database = getReadableDatabase();
+
+        Cursor trailCursor = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID_KEY + "='" + id + "'", null);
+        Trail trail = null;
+        if(trailCursor.moveToFirst()) {
+            trail = new Trail(trailCursor.getInt(0),trailCursor.getString(1),
+                    trailCursor.getDouble(2), trailCursor.getString(3), trailCursor.getString(4),
+                    trailCursor.getDouble(5));
+        }
+        trailCursor.close();
+        return trail;
+    }
+
+    public List<Trail> getAllTrails(){
+        SQLiteDatabase database = getReadableDatabase();
+
+        Cursor trailCursor = database.rawQuery("SELECT * FROM " + TABLE_NAME , null);
+        ArrayList<Trail> trailList = new ArrayList<>();
+        if(trailCursor.moveToFirst()) {
+            do {
+                Trail trail = new Trail(trailCursor.getInt(0),trailCursor.getString(1),
+                        trailCursor.getDouble(2), trailCursor.getString(3), trailCursor.getString(4),
+                        trailCursor.getDouble(5));
+                trailList.add(trail);
+            } while(trailCursor.moveToNext());
+        }
+        trailCursor.close();
+        return trailList;
+    }
 }
