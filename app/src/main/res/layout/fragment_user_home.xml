@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateTrailActivity"
     android:orientation="vertical">
 
     <TextView
@@ -19,32 +18,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/trail_name"
+    <TextView
+        android:id="@+id/currentProgress"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:inputType="text"
-        />
-
-    <EditText
-        android:id="@+id/trail_distance"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:inputType="numberDecimal"
-        />
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"/>
 
     <Button
-        android:id="@+id/edit_trail_button"
+        android:id="@+id/start_workout_button"
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:text="Save Edit"/>
+        android:text="Start Workout"/>
 
     <Button
-        android:id="@+id/cancel_edit_trail_button"
+        android:id="@+id/manual_workout_button"
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:text="Cancel Edit"/>
+        android:text="Manual Workout Entry"/>
+
+    <Button
+        android:id="@+id/select_trail_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Select Trail"/>
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Logout"/>
 
 </LinearLayout>

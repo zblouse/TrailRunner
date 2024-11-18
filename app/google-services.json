@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "326756045414",
     "project_id": "trail-runner-e0cca",
-    "storage_bucket": "trail-runner-e0cca.appspot.com"
+    "storage_bucket": "trail-runner-e0cca.firebasestorage.app"
   },
   "client": [
     {
@@ -13,6 +13,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "326756045414-ahp0bnqd0j2c2ed91sdmbf5bmo0egjln.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.trailrunner",
+            "certificate_hash": "36901cb258dd435255e0e2f527854d886de74f15"
+          }
+        },
+        {
+          "client_id": "326756045414-hq9dpcrkrssplgmfu4vig7r25vbmmd5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.trailrunner",
+            "certificate_hash": "0c3ad59610dd376fbcffbcde1694f829510f4b22"
+          }
+        },
         {
           "client_id": "326756045414-onjvagfbs2a02a6kbe2l73li9np4lkj5.apps.googleusercontent.com",
           "client_type": 1,

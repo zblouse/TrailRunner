@@ -1,28 +1,18 @@
 package com.example.trailrunner;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.datastore.preferences.core.MutablePreferences;
-import androidx.datastore.preferences.core.Preferences;
-import androidx.datastore.preferences.core.PreferencesKeys;
-import androidx.datastore.rxjava3.RxDataStore;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Single;
 
 /**
  * RecyclerView adapter for a product
@@ -30,11 +20,16 @@ import io.reactivex.rxjava3.core.Single;
 public class TrailViewAdapter extends RecyclerView.Adapter<TrailViewAdapter.ViewHolder> {
 
     private final List<Trail> trails;
-    private final ViewTrailsActivity viewTrailsActivity;
+    private final TrailDatabaseHelper trailDatabaseHelper;
+    private final SharedPreferences sharedPreferences;
+    private final Fragment hostFragment;
 
-    public TrailViewAdapter(List<Trail> trails, ViewTrailsActivity viewTrailsActivity){
+    public TrailViewAdapter(List<Trail> trails, Fragment hostFragment,
+            TrailDatabaseHelper trailDatabaseHelper, SharedPreferences sharedPreferences){
         this.trails = trails;
-        this.viewTrailsActivity = viewTrailsActivity;
+        this.hostFragment = hostFragment;
+        this.trailDatabaseHelper = trailDatabaseHelper;
+        this.sharedPreferences = sharedPreferences;
     }
 
     @NonNull
@@ -53,9 +48,8 @@ public class TrailViewAdapter extends RecyclerView.Adapter<TrailViewAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent sendToTrailManagerActivity = new Intent(viewTrailsActivity, TrailManagerActivity.class);
-                sendToTrailManagerActivity.putExtra("trail", (Parcelable) trail);
-                viewTrailsActivity.startActivity(sendToTrailManagerActivity);
+                hostFragment.getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new TrailManagerFragment(trailDatabaseHelper, sharedPreferences, trail)).commit();
             }
         });
 
