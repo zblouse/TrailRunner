@@ -34,6 +34,8 @@ public class TrailManagerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Show main activities bottom navigation
+        ((MainActivity)getActivity()).showNavigation();
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_trail_manager,container,false);
 
         TextView trailDataTextView = layout.findViewById(R.id.trail_data);

@@ -31,6 +31,8 @@ public class ViewTrailsFragment extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Show main activities bottom navigation
+        ((MainActivity)getActivity()).showNavigation();
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_view_trails,container,false);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

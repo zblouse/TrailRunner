@@ -80,6 +80,9 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Hide main activities bottom navigation
+        ((MainActivity)getActivity()).hideNavigation();
+
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_login,container,false);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
