@@ -15,22 +15,28 @@ public class Trail implements Parcelable, Serializable {
     private String trailDistanceUnit;
     private String uid;
     private double userTrailDistance;
+    private double trailStartLatitude;
+    private double trailStartLongitude;
 
-    public Trail(int id, String trailName, double trailDistance, String trailDistanceUnit, String uid, double userTrailDistance){
+    public Trail(int id, String trailName, double trailDistance, String trailDistanceUnit, String uid, double userTrailDistance, double trailStartLatitude, double trailStartLongitude){
         this.id = id;
         this.trailName = trailName;
         this.trailDistance = trailDistance;
         this.trailDistanceUnit = trailDistanceUnit;
         this.uid = uid;
         this.userTrailDistance = userTrailDistance;
+        this.trailStartLatitude = trailStartLatitude;
+        this.trailStartLongitude = trailStartLongitude;
     }
 
-    public Trail(String trailName, double trailDistance, String trailDistanceUnit, String uid, double userTrailDistance){
+    public Trail(String trailName, double trailDistance, String trailDistanceUnit, String uid, double userTrailDistance, double trailStartLatitude, double trailStartLongitude){
         this.trailName = trailName;
         this.trailDistance = trailDistance;
         this.trailDistanceUnit = trailDistanceUnit;
         this.uid = uid;
         this.userTrailDistance = userTrailDistance;
+        this.trailStartLatitude = trailStartLatitude;
+        this.trailStartLongitude = trailStartLongitude;
     }
 
     protected Trail(Parcel in) {
@@ -40,6 +46,8 @@ public class Trail implements Parcelable, Serializable {
         this.trailDistanceUnit = in.readString();
         this.uid = in.readString();
         this.userTrailDistance = in.readDouble();
+        this.trailStartLatitude = in.readDouble();
+        this.trailStartLongitude = in.readDouble();
     }
 
     public static final Creator<Trail> CREATOR = new Creator<Trail>() {
@@ -67,6 +75,8 @@ public class Trail implements Parcelable, Serializable {
         parcel.writeString(this.trailDistanceUnit);
         parcel.writeString(this.uid);
         parcel.writeDouble(this.userTrailDistance);
+        parcel.writeDouble(this.trailStartLatitude);
+        parcel.writeDouble(this.trailStartLongitude);
     }
 
     public int getId(){
@@ -107,5 +117,13 @@ public class Trail implements Parcelable, Serializable {
 
     public void setUserTrailDistance(double userTrailDistance){
         this.userTrailDistance = userTrailDistance;
+    }
+
+    public double getTrailStartLatitude(){
+        return this.trailStartLatitude;
+    }
+
+    public double getTrailStartLongitude(){
+        return this.trailStartLongitude;
     }
 }

@@ -44,6 +44,13 @@
         android:text="Edit Trail"/>
 
     <Button
+        android:id="@+id/view_trail_start_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="View Trail Start"/>
+
+    <Button
         android:id="@+id/delete_trail_button"
         android:layout_width="375dp"
         android:layout_height="50dp"

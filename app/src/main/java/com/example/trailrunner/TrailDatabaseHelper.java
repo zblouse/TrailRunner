@@ -22,6 +22,8 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
     private static final String TRAIL_DISTANCE_UNIT_KEY = "trail_distance_unit";
     private static final String UID_KEY = "uid";
     private static final String USER_TRAIL_DISTANCE_KEY = "user_trail_distance";
+    private static final String TRAIL_START_LATITUDE_KEY = "trail_start_latitude";
+    private static final String TRAIL_START_LONGITUDE_KEY = "trail_start_longitude";
 
     public TrailDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,7 +37,9 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
                 TRAIL_DISTANCE_KEY + " REAL," +
                 TRAIL_DISTANCE_UNIT_KEY + " TEXT," +
                 UID_KEY + " REAL," +
-                USER_TRAIL_DISTANCE_KEY + " REAL" +
+                USER_TRAIL_DISTANCE_KEY + " REAL," +
+                TRAIL_START_LATITUDE_KEY + " REAL," +
+                TRAIL_START_LONGITUDE_KEY + " REAL" +
                 ")";
         database.execSQL(createTableQuery);
     }
@@ -54,6 +58,8 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TRAIL_DISTANCE_UNIT_KEY, trail.getTrailDistanceUnit());
         contentValues.put(UID_KEY, trail.getUid());
         contentValues.put(USER_TRAIL_DISTANCE_KEY, trail.getUserTrailDistance());
+        contentValues.put(TRAIL_START_LATITUDE_KEY, trail.getTrailStartLatitude());
+        contentValues.put(TRAIL_START_LONGITUDE_KEY, trail.getTrailStartLongitude());
         database.insert(TABLE_NAME, null, contentValues);
         database.close();
     }
@@ -67,13 +73,19 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
             do {
                 Trail trail = new Trail(trailCursor.getInt(0),trailCursor.getString(1),
                         trailCursor.getDouble(2), trailCursor.getString(3), trailCursor.getString(4),
-                        trailCursor.getDouble(5));
+                        trailCursor.getDouble(5), trailCursor.getDouble(6), trailCursor.getDouble(7));
                 trailList.add(trail);
             } while(trailCursor.moveToNext());
         }
         trailCursor.close();
         database.close();
         return trailList;
+    }
+
+    public void deleteAllTrailsForUser(String uid){
+        SQLiteDatabase database = getReadableDatabase();
+        database.delete(TABLE_NAME,UID_KEY+"=?",new String[]{String.valueOf(uid)});
+        database.close();
     }
 
     public Trail getTrailById(String id){
@@ -84,7 +96,7 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         if(trailCursor.moveToFirst()) {
             trail = new Trail(trailCursor.getInt(0),trailCursor.getString(1),
                     trailCursor.getDouble(2), trailCursor.getString(3), trailCursor.getString(4),
-                    trailCursor.getDouble(5));
+                    trailCursor.getDouble(5), trailCursor.getDouble(6), trailCursor.getDouble(7));
         }
         trailCursor.close();
         database.close();
@@ -101,6 +113,8 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(TRAIL_DISTANCE_UNIT_KEY, trail.getTrailDistanceUnit());
         contentValues.put(UID_KEY, trail.getUid());
         contentValues.put(USER_TRAIL_DISTANCE_KEY, trail.getUserTrailDistance());
+        contentValues.put(TRAIL_START_LATITUDE_KEY, trail.getTrailStartLatitude());
+        contentValues.put(TRAIL_START_LONGITUDE_KEY, trail.getTrailStartLongitude());
         database.update(TABLE_NAME, contentValues,ID_KEY+"=?",new String[]{String.valueOf(trail.getId())});
         database.close();
     }
@@ -120,7 +134,7 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
             do {
                 Trail trail = new Trail(trailCursor.getInt(0),trailCursor.getString(1),
                         trailCursor.getDouble(2), trailCursor.getString(3), trailCursor.getString(4),
-                        trailCursor.getDouble(5));
+                        trailCursor.getDouble(5), trailCursor.getDouble(6), trailCursor.getDouble(7));
                 trailList.add(trail);
             } while(trailCursor.moveToNext());
         }

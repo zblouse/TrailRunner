@@ -29,6 +29,7 @@ public class UserHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Show main activities bottom navigation
         ((MainActivity)getActivity()).showNavigation();
+
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_user_home,container,false);
 
         TextView currentTrailTextView = layout.findViewById(R.id.currentProgress);

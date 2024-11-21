@@ -13,13 +13,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-public class TrailManagerFragment extends Fragment {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class TrailManagerFragment extends Fragment implements OnMapReadyCallback {
 
     private final TrailDatabaseHelper trailDatabaseHelper;
     private final SharedPreferences sharedPreferences;
@@ -83,6 +92,42 @@ public class TrailManagerFragment extends Fragment {
                         .replace(R.id.fragment_container, new ViewTrailsFragment(trailDatabaseHelper, sharedPreferences)).commit();
             }
         });
+
+        Button viewTrailStartButton = layout.findViewById(R.id.view_trail_start_button);
+        viewTrailStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayMap();
+            }
+        });
         return layout;
+    }
+
+    /**
+     * Method that is called when a House is clicked on in the RecyclerView. Displays the MapFragment
+     * @param
+     */
+    public void displayMap(){
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        //Swaps the active fragment to the Google Map Fragment
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mapFragment).commit();
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        //Creates a LatLng object from the ActiveHouse's lat and long
+        LatLng trailLatLong = new LatLng(trail.getTrailStartLatitude(),trail.getTrailStartLongitude());
+        //Creates a marker on the map
+        googleMap.addMarker(new MarkerOptions()
+                //sets the lat and long for the marker
+                .position(trailLatLong)
+                //Sets the description for the marker
+                //Make the Icon Orange to match the orange theme of the app
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        //Sets the Zoom to a reasonable level for a house
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(trailLatLong,15));
+        //enables the zoom UI on the map
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
     }
 }

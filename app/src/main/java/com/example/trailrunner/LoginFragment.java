@@ -60,8 +60,7 @@ public class LoginFragment extends Fragment {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            System.out.println("Source: " + source + " UID: " + user.getUid());
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();initializeUserTrails(user.getUid());
             if(source.equals("create")){
                 if(trailDatabaseHelper.getAllTrailsForUser(user.getUid()).isEmpty()){
                     initializeUserTrails(user.getUid());
@@ -133,11 +132,11 @@ public class LoginFragment extends Fragment {
     }
 
     private void initializeUserTrails(String uid){
-        Trail appalachianTrail = new Trail("Appalachian Trail",2197.4,"Miles",uid,0);
+        Trail appalachianTrail = new Trail("Appalachian Trail",2197.4,"Miles",uid,0,34.62671573943575, -84.1938571527857);
         trailDatabaseHelper.addTrailToDatabase(appalachianTrail);
-        Trail mountNittanyLoopTrail = new Trail("Mount Nittany Loop", 5, "Miles", uid,0);
+        Trail mountNittanyLoopTrail = new Trail("Mount Nittany Loop", 5, "Miles", uid,0, 40.8115455730065, -77.80694111132333);
         trailDatabaseHelper.addTrailToDatabase(mountNittanyLoopTrail);
-        Trail pacificCrestTrail = new Trail("Pacific Crest Trail", 2650, "Miles", uid, 0);
+        Trail pacificCrestTrail = new Trail("Pacific Crest Trail", 2650, "Miles", uid, 0, 49.00027269044327, -120.80229954598605);
         trailDatabaseHelper.addTrailToDatabase(pacificCrestTrail);
     }
 }

@@ -45,8 +45,9 @@ public class CreateTrailFragment extends Fragment {
         createTrailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO add UI elements
                 Trail newTrail = new Trail(trailNameEditText.getText().toString(),
-                        Double.valueOf(trailDistanceEditText.getText().toString()),"Miles", user.getUid(),0);
+                        Double.valueOf(trailDistanceEditText.getText().toString()),"Miles", user.getUid(),0,0,0);
                 trailDatabaseHelper.addTrailToDatabase(newTrail);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new ViewTrailsFragment(trailDatabaseHelper, sharedPreferences)).commit();
