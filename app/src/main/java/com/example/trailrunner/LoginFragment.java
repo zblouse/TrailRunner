@@ -60,7 +60,7 @@ public class LoginFragment extends Fragment {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();initializeUserTrails(user.getUid());
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if(source.equals("create")){
                 if(trailDatabaseHelper.getAllTrailsForUser(user.getUid()).isEmpty()){
                     initializeUserTrails(user.getUid());

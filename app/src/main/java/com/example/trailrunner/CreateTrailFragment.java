@@ -40,6 +40,8 @@ public class CreateTrailFragment extends Fragment {
 
         EditText trailNameEditText = layout.findViewById(R.id.trail_name);
         EditText trailDistanceEditText = layout.findViewById(R.id.trail_distance);
+        EditText trailStartLatitudeEditText = layout.findViewById(R.id.latitude_edit_text);
+        EditText trailStartLongitudeEditText =layout.findViewById(R.id.longitude_edit_text);
         Button createTrailButton = layout.findViewById(R.id.create_trail_button);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         createTrailButton.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +49,9 @@ public class CreateTrailFragment extends Fragment {
             public void onClick(View view) {
                 //TODO add UI elements
                 Trail newTrail = new Trail(trailNameEditText.getText().toString(),
-                        Double.valueOf(trailDistanceEditText.getText().toString()),"Miles", user.getUid(),0,0,0);
+                        Double.valueOf(trailDistanceEditText.getText().toString()),"Miles",
+                        user.getUid(),0,Double.valueOf(trailStartLatitudeEditText.getText().toString()),
+                        Double.valueOf(trailStartLongitudeEditText.getText().toString()));
                 trailDatabaseHelper.addTrailToDatabase(newTrail);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new ViewTrailsFragment(trailDatabaseHelper, sharedPreferences)).commit();

@@ -34,6 +34,20 @@
         android:inputType="numberDecimal"
         />
 
+    <EditText
+        android:id="@+id/latitude_edit_text"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:hint="Trail Start Latitude"
+        android:inputType="numberDecimal|numberSigned"/>
+
+    <EditText
+        android:id="@+id/longitude_edit_text"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:hint="Trail Start Longitude"
+        android:inputType="numberDecimal|numberSigned"/>
+
     <Button
         android:id="@+id/create_trail_button"
         android:layout_width="375dp"
