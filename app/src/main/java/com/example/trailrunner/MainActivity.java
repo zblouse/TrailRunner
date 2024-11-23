@@ -2,6 +2,7 @@ package com.example.trailrunner;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TrailDatabaseHelper trailDatabaseHelper;
     private SharedPreferences sharedPreferences;
+    private LocationUtils locationUtils;
 
     private BottomNavigationView navigationView;
 
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         trailDatabaseHelper = new TrailDatabaseHelper(this);
         sharedPreferences = this.getSharedPreferences(getString(R.string.user_prefs), Context.MODE_PRIVATE);
-
+        locationUtils = new LocationUtils(this);
         //setup navigation
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnItemSelectedListener(navListener);
@@ -93,6 +95,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void showNavigation(){
         navigationView.setVisibility(BottomNavigationView.VISIBLE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == LocationUtils.PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            }
+        }
+    }
+
+    public LocationUtils getLocationUtils(){
+        return this.locationUtils;
     }
 
 }

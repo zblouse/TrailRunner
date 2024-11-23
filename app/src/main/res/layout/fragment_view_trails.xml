@@ -17,7 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/create_trail_button"
         android:layout_width="375dp"
@@ -25,10 +24,16 @@
         android:layout_gravity="center"
         android:text="Create Custom Trail"/>
 
+    <Spinner
+        android:id="@+id/distance_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trail_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:listitem="@layout/trail_display"
         />

@@ -2,4 +2,18 @@
     <string name="app_name">Trail Runner</string>
     <string name="user_prefs">trailrunneruserprefs</string>
     <string name="user_pref_active_trail_key">trailrunneractivetrail</string>
+    <string-array name="trail_distance_filter_array_imperial">
+        <item>Any</item>
+        <item>1 Mile</item>
+        <item>5 Miles</item>
+        <item>50 Miles</item>
+        <item>100 Miles</item>
+    </string-array>
+    <string-array name="trail_distance_filter_array_metric">
+        <item>Any</item>
+        <item>1 Km</item>
+        <item>5 Km</item>
+        <item>25 Km</item>
+        <item>100 Km</item>
+    </string-array>
 </resources>
