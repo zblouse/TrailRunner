@@ -123,6 +123,7 @@ public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSe
                 toast.show();
                 showTrails(allUserTrails);
             } else {
+                System.out.println("Filtering out trails from user location: " + currentUserLocation.getLatitude() + ", " + currentUserLocation.getLongitude());
                 for (Trail trail : allUserTrails) {
                     LatLng trailStart = new LatLng(trail.getTrailStartLatitude(), trail.getTrailStartLongitude());
                     LatLng userLatLng = new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude());
@@ -130,12 +131,13 @@ public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSe
                         trailsWithinRange.add(trail);
                     }
                 }
+                showTrails(trailsWithinRange);
             }
-            showTrails(trailsWithinRange);
         }
     }
 
     private void showTrails(List<Trail> showingTrails){
+        System.out.println("Showing: " + showingTrails.size() + " trails");
         trails.clear();
         trails.addAll(showingTrails);
         trailViewAdapter.notifyDataSetChanged();
