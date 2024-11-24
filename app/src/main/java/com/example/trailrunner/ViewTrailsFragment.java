@@ -1,6 +1,5 @@
 package com.example.trailrunner;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,8 +18,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,7 +59,7 @@ public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSe
 
         Spinner distanceSpinner = layout.findViewById(R.id.distance_spinner);
         ArrayAdapter<CharSequence> adapter;
-        if(sharedPreferences.getString("distance_unit", "metric").equals("imperial")) {
+        if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
             adapter = ArrayAdapter.createFromResource(
                     getContext(),
                     R.array.trail_distance_filter_array_imperial,
@@ -99,7 +96,7 @@ public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSe
             return;
         }
         int numberValue = Integer.valueOf(distance.split(" ")[0]);
-        if(sharedPreferences.getString("distance_unit", "metric").equals("imperial")) {
+        if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
             showTrailsWithinDistance(LatLongUtils.convertMilesToKm(numberValue));
         } else {
             showTrailsWithinDistance(numberValue);

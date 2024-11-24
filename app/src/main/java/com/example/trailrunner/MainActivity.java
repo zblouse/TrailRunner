@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         if (itemId == R.id.action_home) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new LoginFragment(trailDatabaseHelper, sharedPreferences)).commit();
+        } else if (itemId == R.id.action_settings) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new SettingsFragment()).commit();
         }
 
         return true;
@@ -109,6 +112,14 @@ public class MainActivity extends AppCompatActivity {
 
     public LocationUtils getLocationUtils(){
         return this.locationUtils;
+    }
+
+    public TrailDatabaseHelper getTrailDatabaseHelper(){
+        return this.trailDatabaseHelper;
+    }
+
+    public SharedPreferences getSharedPreferences(){
+        return this.sharedPreferences;
     }
 
 }
