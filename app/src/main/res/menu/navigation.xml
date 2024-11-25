@@ -9,9 +9,9 @@
         android:title="home"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/action_2"
-        android:icon="@drawable/home"
-        android:title="home"
+        android:id="@+id/action_workout"
+        android:icon="@drawable/run"
+        android:title="workout"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_settings"

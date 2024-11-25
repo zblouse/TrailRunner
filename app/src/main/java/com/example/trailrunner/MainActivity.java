@@ -74,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.action_settings) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new SettingsFragment()).commit();
+        } else if (itemId == R.id.action_workout){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new WorkoutFragment()).commit();
         }
 
         return true;

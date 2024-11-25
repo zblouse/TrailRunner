@@ -42,8 +42,22 @@ public class TrailViewAdapter extends RecyclerView.Adapter<TrailViewAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Trail trail = trails.get(position);
+        String trailDistance = "";
+        if(sharedPreferences.getString(hostFragment.getString(R.string.user_pref_unit_key),"Metric").equals("Metric")){
+            if(trail.getTrailDistanceUnit().equals("Miles")){
+                trailDistance += String.format("%.2f",LatLongUtils.convertMilesToKm(trail.getTrailDistance())) + " km";
+            } else {
+                trailDistance += trail.getUserTrailDistance() + " km";
+            }
+        } else {
+            if(trail.getTrailDistanceUnit().equals("Miles")){
+                trailDistance += trail.getTrailDistance() + " Miles";
+            } else {
+                trailDistance +=  String.format("%.2f", LatLongUtils.convertKmToMiles(trail.getTrailDistance())) + " Miles";
+            }
+        }
 
-        holder.trailDataView.setText(trail.getTrailName() + " " + trail.getTrailDistance() + " " + trail.getTrailDistanceUnit());
+        holder.trailDataView.setText(trail.getTrailName() + " " + trailDistance);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

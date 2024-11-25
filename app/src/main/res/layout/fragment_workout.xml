@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/time_display"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:autoSizeTextType="uniform"
+        android:textAlignment="center"
+        android:text="00:00"
+        />
+
+    <TextView
+        android:id="@+id/distance_display"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:autoSizeTextType="uniform"
+        android:layout_gravity="center"
+        />
+
+    <Button
+        android:id="@+id/start_run_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Start Workout"/>
+
+    <Button
+        android:id="@+id/pause_run_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Pause Workout"/>
+
+    <Button
+        android:id="@+id/finish_run_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Finish Workout"/>
+    <Button
+        android:id="@+id/save_run_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Save Workout"/>
+
+    <Button
+        android:id="@+id/discard_run_button"
+        android:layout_width="375dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Discard Workout"/>
+
+</LinearLayout>

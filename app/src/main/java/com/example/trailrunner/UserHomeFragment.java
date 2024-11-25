@@ -16,19 +16,26 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class UserHomeFragment extends Fragment {
 
-    private final TrailDatabaseHelper trailDatabaseHelper;
-    private final SharedPreferences sharedPreferences;
+    private TrailDatabaseHelper trailDatabaseHelper;
+    private SharedPreferences sharedPreferences;
 
+    //TODO refactor all fragments to get these from the activity
     public UserHomeFragment(TrailDatabaseHelper trailDatabaseHelper, SharedPreferences sharedPreferences){
         super(R.layout.fragment_user_home);
         this.trailDatabaseHelper = trailDatabaseHelper;
         this.sharedPreferences = sharedPreferences;
     }
 
+    public UserHomeFragment(){
+        super(R.layout.fragment_user_home);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Show main activities bottom navigation
         ((MainActivity)getActivity()).showNavigation();
+        trailDatabaseHelper = ((MainActivity)getActivity()).getTrailDatabaseHelper();
+        sharedPreferences = ((MainActivity)getActivity()).getSharedPreferences();
 
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_user_home,container,false);
 
