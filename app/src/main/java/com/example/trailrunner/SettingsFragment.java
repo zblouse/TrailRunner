@@ -17,7 +17,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     private LinearLayout layout;
 
     public SettingsFragment(){
-        super(R.layout.fragment_view_trails);
+        super(R.layout.fragment_settings);
     }
 
     @Override

@@ -47,6 +47,7 @@ public class CreateTrailFragment extends Fragment {
         createTrailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO add error handling for empty entries
                 Trail newTrail = new Trail(trailNameEditText.getText().toString(),
                         Double.valueOf(trailDistanceEditText.getText().toString()),"Miles",
                         user.getUid(),0,Double.valueOf(trailStartLatitudeEditText.getText().toString()),

@@ -82,6 +82,15 @@ public class UserHomeFragment extends Fragment {
             }
         });
 
+        Button manualWorkoutButton = layout.findViewById(R.id.manual_workout_button);
+        manualWorkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ManualWorkoutEntryFragment()).commit();
+            }
+        });
+
         return layout;
     }
 }
