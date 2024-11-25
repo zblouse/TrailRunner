@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,7 @@ public class WorkoutFragment extends Fragment implements LocationListener {
 
     private LinearLayout layout;
     private SharedPreferences sharedPreferences;
+    private TrailDatabaseHelper trailDatabaseHelper;
     private MainActivity mainActivity;
     private TextView timerTextView;
     private TextView distanceTextView;
@@ -50,6 +52,7 @@ public class WorkoutFragment extends Fragment implements LocationListener {
         mainActivity = ((MainActivity) getActivity());
         mainActivity.showNavigation();
         sharedPreferences = mainActivity.getSharedPreferences();
+        trailDatabaseHelper = mainActivity.getTrailDatabaseHelper();
         layout = (LinearLayout) inflater.inflate(R.layout.fragment_workout,container,false);
         timerTextView = layout.findViewById(R.id.time_display);
         distanceTextView = layout.findViewById(R.id.distance_display);
@@ -58,6 +61,7 @@ public class WorkoutFragment extends Fragment implements LocationListener {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                seconds = 0;
                 startWorkout();
             }
         });
@@ -106,7 +110,7 @@ public class WorkoutFragment extends Fragment implements LocationListener {
         ((ViewGroup)layout).addView(pauseButton);
         ((ViewGroup)layout).addView(stopButton);
         ((ViewGroup)layout).removeView(startButton);
-        seconds = 0;
+
         mainActivity.hideNavigation();
         mainActivity.getLocationUtils().subscribeToLocationUpdates(this);
         Handler handler = new Handler(Looper.myLooper());
@@ -114,26 +118,28 @@ public class WorkoutFragment extends Fragment implements LocationListener {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                int hours = seconds / 3600;
-                int minutes = (seconds % 3600) / 60;
-                int formattedSeconds = seconds % 60;
-                String formattedTime;
-                if(hours > 0){
-                    formattedTime = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, formattedSeconds);
-                } else {
-                    formattedTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, formattedSeconds);
-                }
-                timerTextView.setText(formattedTime);
-                if(!paused){
-                    seconds++;
-                }
-                if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
-                    distanceTextView.setText(distanceFormat.format(distance) + " Miles");
-                } else {
-                    distanceTextView.setText(distanceFormat.format(distance) + " Km");
-                }
+                if(!paused) {
+                    int hours = seconds / 3600;
+                    int minutes = (seconds % 3600) / 60;
+                    int formattedSeconds = seconds % 60;
+                    String formattedTime;
+                    if (hours > 0) {
+                        formattedTime = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, formattedSeconds);
+                    } else {
+                        formattedTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, formattedSeconds);
+                    }
+                    timerTextView.setText(formattedTime);
+                    if (!paused) {
+                        seconds++;
+                    }
+                    if (sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
+                        distanceTextView.setText(distanceFormat.format(distance) + " Miles");
+                    } else {
+                        distanceTextView.setText(distanceFormat.format(distance) + " Km");
+                    }
 
-                handler.postDelayed(this,1000);
+                    handler.postDelayed(this, 1000);
+                }
             }
         });
 
@@ -164,6 +170,7 @@ public class WorkoutFragment extends Fragment implements LocationListener {
         });
         confirmDoneBuilder.setNegativeButton("Resume",(DialogInterface.OnClickListener)(dialog, which) -> {
             pauseWorkout();
+            startWorkout();
             dialog.cancel();
         });
 
@@ -172,7 +179,40 @@ public class WorkoutFragment extends Fragment implements LocationListener {
     }
 
     private void saveWorkout(){
+        System.out.println("Inside save workout");
+        String currentTrailId = sharedPreferences.getString(getString(R.string.user_pref_active_trail_key), null);
+        if(currentTrailId == null){
+            Toast toast = Toast.makeText(mainActivity,"No active trail. Cannot save progress", Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            System.out.println("Current Trail ID: " + currentTrailId);
+            Trail activeTrail = trailDatabaseHelper.getTrailById(currentTrailId);
+            if(activeTrail != null){
+                System.out.println("Current Trail Name: " + activeTrail.getTrailName());
+                System.out.println("Trail Previous distance: " + activeTrail.getUserTrailDistance());
+                if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
+                    if(activeTrail.getTrailDistanceUnit().equals("Miles")){
+                        activeTrail.setUserTrailDistance(activeTrail.getUserTrailDistance() + distance);
+                    } else {
+                        activeTrail.setUserTrailDistance(activeTrail.getUserTrailDistance() + LatLongUtils.convertMilesToKm(distance));
+                    }
+                } else {
+                    if(activeTrail.getTrailDistanceUnit().equals("Kilometers")){
+                        activeTrail.setUserTrailDistance(activeTrail.getUserTrailDistance() + distance);
+                    } else {
+                        activeTrail.setUserTrailDistance(activeTrail.getUserTrailDistance() + LatLongUtils.convertKmToMiles(distance));
+                    }
+                }
+                System.out.println("Trail New distance: " + activeTrail.getUserTrailDistance());
+                trailDatabaseHelper.updateTrail(activeTrail);
 
+            } else {
+                Toast toast = Toast.makeText(mainActivity,"Failed to load trail. Cannot save progress", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        mainActivity.getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new UserHomeFragment()).commit();
     }
 
     private void discardWorkout(){

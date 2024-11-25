@@ -104,6 +104,7 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void updateTrail(Trail trail){
+        System.out.println("Updating trail");
         SQLiteDatabase database = getReadableDatabase();
 
         ContentValues contentValues = new ContentValues();

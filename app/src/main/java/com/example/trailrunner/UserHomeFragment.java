@@ -73,6 +73,15 @@ public class UserHomeFragment extends Fragment {
             }
         });
 
+        Button workoutButton = layout.findViewById(R.id.start_workout_button);
+        workoutButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new WorkoutFragment()).commit();
+            }
+        });
+
         return layout;
     }
 }
