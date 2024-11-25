@@ -1,12 +1,15 @@
 package com.example.trailrunner;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,11 +17,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.text.DecimalFormat;
 import java.util.Locale;
 
-public class WorkoutFragment extends Fragment {
+public class WorkoutFragment extends Fragment implements LocationListener {
 
     private LinearLayout layout;
+    private SharedPreferences sharedPreferences;
     private MainActivity mainActivity;
     private TextView timerTextView;
     private TextView distanceTextView;
@@ -28,8 +35,9 @@ public class WorkoutFragment extends Fragment {
     private Button saveButton;
     private Button discardButton;
     private boolean paused;
-
+    private Location lastLocation;
     private int seconds;
+    private double distance;
 
     public WorkoutFragment(){
         super(R.layout.fragment_workout);
@@ -41,6 +49,7 @@ public class WorkoutFragment extends Fragment {
         //Hide main activities bottom navigation during run, to prevent accidental clicking
         mainActivity = ((MainActivity) getActivity());
         mainActivity.showNavigation();
+        sharedPreferences = mainActivity.getSharedPreferences();
         layout = (LinearLayout) inflater.inflate(R.layout.fragment_workout,container,false);
         timerTextView = layout.findViewById(R.id.time_display);
         distanceTextView = layout.findViewById(R.id.distance_display);
@@ -99,7 +108,9 @@ public class WorkoutFragment extends Fragment {
         ((ViewGroup)layout).removeView(startButton);
         seconds = 0;
         mainActivity.hideNavigation();
+        mainActivity.getLocationUtils().subscribeToLocationUpdates(this);
         Handler handler = new Handler(Looper.myLooper());
+        DecimalFormat distanceFormat = new DecimalFormat("#.00");
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -116,6 +127,12 @@ public class WorkoutFragment extends Fragment {
                 if(!paused){
                     seconds++;
                 }
+                if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
+                    distanceTextView.setText(distanceFormat.format(distance) + " Miles");
+                } else {
+                    distanceTextView.setText(distanceFormat.format(distance) + " Km");
+                }
+
                 handler.postDelayed(this,1000);
             }
         });
@@ -126,6 +143,7 @@ public class WorkoutFragment extends Fragment {
         paused = !paused;
         if(paused){
             pauseButton.setText("Unpause Workout");
+            lastLocation = null;
         } else {
             pauseButton.setText("Pause Workout");
         }
@@ -142,6 +160,7 @@ public class WorkoutFragment extends Fragment {
             ((ViewGroup)layout).addView(saveButton);
             ((ViewGroup)layout).removeView(pauseButton);
             ((ViewGroup)layout).removeView(stopButton);
+            mainActivity.getLocationUtils().unsubscribeToLocationUpdates(this);
         });
         confirmDoneBuilder.setNegativeButton("Resume",(DialogInterface.OnClickListener)(dialog, which) -> {
             pauseWorkout();
@@ -159,5 +178,26 @@ public class WorkoutFragment extends Fragment {
     private void discardWorkout(){
         mainActivity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new UserHomeFragment()).commit();
+    }
+
+    @Override
+    public void locationUpdate(Location location) {
+        System.out.println("Got location update: " + location);
+        if(location == null){
+            return;
+        }
+        if(lastLocation == null){
+            lastLocation = location;
+        } else if (lastLocation != location){
+            LatLng previousLatLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            double distanceKm = LatLongUtils.calculateDistanceKm(previousLatLng, currentLatLng);
+            if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
+                distance += LatLongUtils.convertKmToMiles(distanceKm);
+            } else {
+                distance+=distanceKm;
+            }
+            lastLocation = location;
+        }
     }
 }
