@@ -44,7 +44,7 @@ public class LocationUtils {
             public void run() {
                 scheduledLocationUpdateCheck();
             }
-        },1000,30000);
+        },1000,5000);
     }
 
     public Location getLastKnownLocation(){
