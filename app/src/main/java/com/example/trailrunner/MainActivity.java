@@ -1,8 +1,14 @@
 package com.example.trailrunner;
 
+import static android.icu.number.NumberRangeFormatter.with;
+
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +17,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,13 +35,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final String CHANNEL_ID = "TRAIL_RUNNER";
     private TrailDatabaseHelper trailDatabaseHelper;
     private SharedPreferences sharedPreferences;
     private LocationUtils locationUtils;
-
     private BottomNavigationView navigationView;
 
     @Override
@@ -45,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        createNotificationChannel();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         trailDatabaseHelper = new TrailDatabaseHelper(this);
         sharedPreferences = this.getSharedPreferences(getString(R.string.user_prefs), Context.MODE_PRIVATE);
@@ -52,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
         //setup navigation
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnItemSelectedListener(navListener);
+
+        boolean notificationGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+        if(!notificationGranted){
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.POST_NOTIFICATIONS}, 5);
+        }
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new LoginFragment(trailDatabaseHelper, sharedPreferences)).commit();
@@ -123,6 +140,37 @@ public class MainActivity extends AppCompatActivity {
 
     public SharedPreferences getSharedPreferences(){
         return this.sharedPreferences;
+    }
+
+    private void createNotificationChannel() {
+        CharSequence name = "trail_runner_channel";
+        String description = "trail_runner_description";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+        channel.setDescription(description);
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this.
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+
+    }
+
+    public void sendNotification(String title, String description, int imageId){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(imageId)
+                .setContentTitle(title)
+                .setContentText(description)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        boolean notificationGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+        if(!notificationGranted){
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.POST_NOTIFICATIONS}, 5);
+        }else {
+            Random random = new Random();
+            NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+            manager.notify(random.nextInt(), builder.build());
+        }
     }
 
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -188,8 +189,6 @@ public class WorkoutFragment extends Fragment implements LocationListener {
             System.out.println("Current Trail ID: " + currentTrailId);
             Trail activeTrail = trailDatabaseHelper.getTrailById(currentTrailId);
             if(activeTrail != null){
-                System.out.println("Current Trail Name: " + activeTrail.getTrailName());
-                System.out.println("Trail Previous distance: " + activeTrail.getUserTrailDistance());
                 if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
                     if(activeTrail.getTrailDistanceUnit().equals("Miles")){
                         activeTrail.setUserTrailDistance(activeTrail.getUserTrailDistance() + distance);
@@ -203,6 +202,10 @@ public class WorkoutFragment extends Fragment implements LocationListener {
                         activeTrail.setUserTrailDistance(activeTrail.getUserTrailDistance() + LatLongUtils.convertKmToMiles(distance));
                     }
                 }
+                if(activeTrail.getUserTrailDistance() >= activeTrail.getTrailDistance()){
+                    mainActivity.sendNotification("Finished Trail", "Congratulations! You have completed the " + activeTrail.getTrailName(), R.drawable.run);
+                }
+
                 System.out.println("Trail New distance: " + activeTrail.getUserTrailDistance());
                 trailDatabaseHelper.updateTrail(activeTrail);
 
