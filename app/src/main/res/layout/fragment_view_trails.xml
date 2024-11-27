@@ -12,6 +12,7 @@
         android:layout_height="175dp"
         android:autoSizeTextType="uniform"
         android:text="Trail Runner"
+        android:textColor="@color/green"
         android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +23,7 @@
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/green"
         android:text="Create Custom Trail"/>
 
     <LinearLayout

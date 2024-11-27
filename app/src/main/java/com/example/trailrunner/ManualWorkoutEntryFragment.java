@@ -70,8 +70,11 @@ public class ManualWorkoutEntryFragment extends Fragment {
                                     activeTrail.setUserTrailDistance(activeTrail.getUserTrailDistance() + LatLongUtils.convertKmToMiles(distance));
                                 }
                             }
-                            System.out.println("Trail New distance: " + activeTrail.getUserTrailDistance());
+
                             trailDatabaseHelper.updateTrail(activeTrail);
+                            if(activeTrail.getUserTrailDistance() >= activeTrail.getTrailDistance()){
+                                mainActivity.sendNotification("Finished Trail", "Congratulations! You have completed the " + activeTrail.getTrailName(), R.drawable.run);
+                            }
 
                             mainActivity.getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.fragment_container, new UserHomeFragment()).commit();

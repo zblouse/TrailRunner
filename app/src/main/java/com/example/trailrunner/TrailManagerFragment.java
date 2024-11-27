@@ -50,7 +50,7 @@ public class TrailManagerFragment extends Fragment implements OnMapReadyCallback
         TextView trailDataTextView = layout.findViewById(R.id.trail_data);
         trailDataTextView.setText("Trail Name: " + trail.getTrailName() + "\nTrail Distance: " +
                 trail.getTrailDistance() + " " + trail.getTrailDistanceUnit() + "\nUser Progress: " +
-                trail.getUserTrailDistance() + " " + trail.getTrailDistanceUnit());
+                String.format("%.2f",trail.getUserTrailDistance()) + " " + trail.getTrailDistanceUnit());
         Button setActiveTrailButton = layout.findViewById(R.id.set_active_trail_button);
         setActiveTrailButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,6 +9,7 @@
         android:layout_height="80dp"
         android:autoSizeTextType="uniform"
         android:text="Settings"
+        android:textColor="@color/green"
         android:layout_gravity="top|center_horizontal" />
 
     <LinearLayout

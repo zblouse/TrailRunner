@@ -47,7 +47,7 @@ public class UserHomeFragment extends Fragment {
             Trail activeTrail = trailDatabaseHelper.getTrailById(currentTrailId);
             if(activeTrail != null){
                 currentTrailTextView.setText("Current Trail: " + activeTrail.getTrailName() +
-                        "\nProgress: " + activeTrail.getUserTrailDistance() + "\nPercent Complete: " +
+                        "\nProgress: " + String.format("%.2f",activeTrail.getUserTrailDistance()) + "\nPercent Complete: " +
                         String.format("%.2f",activeTrail.getUserTrailDistance()/activeTrail.getTrailDistance()*100) + "%");
             } else {
                 currentTrailTextView.setText("Error with active trail. Trail progress is not being saved.");

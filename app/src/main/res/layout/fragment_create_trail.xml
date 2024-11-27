@@ -13,6 +13,7 @@
         android:autoSizeTextType="uniform"
         android:text="Trail Runner"
         android:layout_gravity="center"
+        android:textColor="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +54,7 @@
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/green"
         android:text="Create"/>
 
 </LinearLayout>

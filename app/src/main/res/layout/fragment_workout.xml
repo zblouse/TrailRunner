@@ -17,6 +17,7 @@
     <TextView
         android:id="@+id/distance_display"
         android:layout_width="wrap_content"
+        android:minWidth="50dp"
         android:layout_height="100dp"
         android:autoSizeTextType="uniform"
         android:layout_gravity="center"
@@ -27,6 +28,7 @@
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/green"
         android:text="Start Workout"/>
 
     <Button
@@ -34,6 +36,7 @@
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/green"
         android:text="Pause Workout"/>
 
     <Button
@@ -41,12 +44,14 @@
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/green"
         android:text="Finish Workout"/>
     <Button
         android:id="@+id/save_run_button"
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/green"
         android:text="Save Workout"/>
 
     <Button
@@ -54,6 +59,7 @@
         android:layout_width="375dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/green"
         android:text="Discard Workout"/>
 
 </LinearLayout>
