@@ -3,6 +3,11 @@
     <string name="user_prefs">trailrunneruserprefs</string>
     <string name="user_pref_active_trail_key">trailrunneractivetrail</string>
     <string name="user_pref_unit_key">units</string>
+    <string name="settings_label">Settings</string>
+    <string name="units_of_measurement_label">Unit of Measurement</string>
+    <string name="distance_filter_label">Distance Filter</string>
+    <string name="default_time_display">00:00</string>
+    <!--String arrays are used in the Spinners(drop downs)-->
     <string-array name="trail_distance_filter_array_imperial">
         <item>Any</item>
         <item>1 Mile</item>
@@ -21,13 +26,31 @@
         <item>Metric</item>
         <item>Imperial</item>
     </string-array>
+    <!--EditText Hints-->
     <string name="trail_name_hint">Trail Name</string>
     <string name="trail_distance_imperial_hint">Trail Distance (Miles)</string>
     <string name="trail_distance_metric_hint">Trail Distance (Kilometers)</string>
     <string name="trail_latitude_hint">Trail Start Latitude</string>
     <string name="trail_longitude_hint">Trail Start Longitude</string>
-
+    <string name="workout_distance_hint">Workout Distance</string>
+    <!--Button Text-->
     <string name="create_trail_button_text">Create</string>
     <string name="save_trail_edit_button_text">Save Edit</string>
     <string name="cancel_trail_edit_button_text">Cancel Edit</string>
+    <string name="login_button_text">Login</string>
+    <string name="create_account_button_text">Create Account</string>
+    <string name="save_workout_button_text">Save Workout</string>
+    <string name="set_active_trail_button_text">Set As Active Trail</string>
+    <string name="reset_user_progress_button_text">Reset User Progress</string>
+    <string name="edit_trail_button_text">Edit Trail</string>
+    <string name="view_trail_start_button_text">View Trail Start</string>
+    <string name="delete_trail_button_text">Delete Trail</string>
+    <string name="start_workout_button_text">Start Workout</string>
+    <string name="manual_workout_entry_button_text">Manual Workout Entry</string>
+    <string name="view_trails_button_text">View Trails</string>
+    <string name="logout_button_text">Logout</string>
+    <string name="create_custom_trail_button_text">Create Custom Trail</string>
+    <string name="pause_workout_button_text">Pause Workout</string>
+    <string name="finish_workout_button_text">Finish Workout</string>
+    <string name="discard_workout_button_text">Discard Workout</string>
 </resources>

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:autoSizeTextType="uniform"
-        android:text="Trail Runner"
+        android:text="@string/app_name"
         android:textColor="@color/green"
         android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,7 +25,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/green"
-        android:text="Login"/>
+        android:text="@string/login_button_text"/>
 
     <Button
         android:id="@+id/create_account_button"
@@ -33,6 +33,6 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/green"
-        android:text="Create Account"/>
+        android:text="@string/create_account_button_text"/>
 
 </LinearLayout>

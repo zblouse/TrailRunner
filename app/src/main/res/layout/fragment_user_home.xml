@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:autoSizeTextType="uniform"
-        android:text="Trail Runner"
+        android:text="@string/app_name"
         android:textColor="@color/green"
         android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/green"
-        android:text="Start Workout"/>
+        android:text="@string/start_workout_button_text"/>
 
     <Button
         android:id="@+id/manual_workout_button"
@@ -39,7 +39,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/green"
-        android:text="Manual Workout Entry"/>
+        android:text="@string/manual_workout_entry_button_text"/>
 
     <Button
         android:id="@+id/select_trail_button"
@@ -47,7 +47,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/green"
-        android:text="View Trails"/>
+        android:text="@string/view_trails_button_text"/>
 
     <Button
         android:id="@+id/logout_button"

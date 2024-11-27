@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:autoSizeTextType="uniform"
-        android:text="Settings"
+        android:text="@string/settings_label"
         android:textColor="@color/green"
         android:layout_gravity="top|center_horizontal" />
 
@@ -21,7 +21,7 @@
             android:id="@+id/units_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Unit of Measurement"/>
+            android:text="@string/units_of_measurement_label"/>
 
         <Spinner
             android:id="@+id/unit_spinner"

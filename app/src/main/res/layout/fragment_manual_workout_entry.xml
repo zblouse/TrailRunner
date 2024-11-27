@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:inputType="numberDecimal"
+        android:hint="@string/workout_distance_hint"
         />
 
     <Button
@@ -17,6 +18,6 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/green"
-        android:text="Save Workout"/>
+        android:text="@string/save_workout_button_text"/>
 
 </LinearLayout>
