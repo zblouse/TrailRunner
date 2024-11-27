@@ -21,4 +21,13 @@
         <item>Metric</item>
         <item>Imperial</item>
     </string-array>
+    <string name="trail_name_hint">Trail Name</string>
+    <string name="trail_distance_imperial_hint">Trail Distance (Miles)</string>
+    <string name="trail_distance_metric_hint">Trail Distance (Kilometers)</string>
+    <string name="trail_latitude_hint">Trail Start Latitude</string>
+    <string name="trail_longitude_hint">Trail Start Longitude</string>
+
+    <string name="create_trail_button_text">Create</string>
+    <string name="save_trail_edit_button_text">Save Edit</string>
+    <string name="cancel_trail_edit_button_text">Cancel Edit</string>
 </resources>

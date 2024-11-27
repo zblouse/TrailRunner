@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:autoSizeTextType="uniform"
-        android:text="Trail Runner"
+        android:text="@string/app_name"
         android:textColor="@color/green"
         android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/green"
-        android:text="Save Edit"/>
+        android:text="@string/save_trail_edit_button_text"/>
 
     <Button
         android:id="@+id/cancel_edit_trail_button"
@@ -47,6 +47,6 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/green"
-        android:text="Cancel Edit"/>
+        android:text="@string/cancel_trail_edit_button_text"/>
 
 </LinearLayout>
