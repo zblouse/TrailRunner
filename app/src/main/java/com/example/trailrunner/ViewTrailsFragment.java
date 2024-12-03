@@ -25,19 +25,20 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment for viewing the user's list of trails in the database. They are displayed in a RecyclerView
+ */
 public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    private final TrailDatabaseHelper trailDatabaseHelper;
-    private final SharedPreferences sharedPreferences;
+    private TrailDatabaseHelper trailDatabaseHelper;
+    private SharedPreferences sharedPreferences;
     private LinearLayout layout;
     private FirebaseUser user;
     private TrailViewAdapter trailViewAdapter;
     private List<Trail> trails;
 
-    public ViewTrailsFragment(TrailDatabaseHelper trailDatabaseHelper, SharedPreferences sharedPreferences){
+    public ViewTrailsFragment(){
         super(R.layout.fragment_view_trails);
-        this.trailDatabaseHelper = trailDatabaseHelper;
-        this.sharedPreferences = sharedPreferences;
     }
 
     @Override
@@ -45,18 +46,21 @@ public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSe
         //Show main activities bottom navigation
         ((MainActivity)getActivity()).showNavigation();
         layout = (LinearLayout) inflater.inflate(R.layout.fragment_view_trails,container,false);
-
+        trailDatabaseHelper = ((MainActivity)getActivity()).getTrailDatabaseHelper();
+        sharedPreferences = ((MainActivity)getActivity()).getSharedPreferences();
         user = FirebaseAuth.getInstance().getCurrentUser();
         trails = trailDatabaseHelper.getAllTrailsForUser(user.getUid());
+        //Gets references to all UI elements
         Button createCustomTrailButton = layout.findViewById(R.id.create_trail_button);
+        //clicking the createCustomTrailButton launches the CreateCustomTrailFragment
         createCustomTrailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new CreateTrailFragment(trailDatabaseHelper, sharedPreferences)).commit();
+                        .replace(R.id.fragment_container, new CreateTrailFragment()).commit();
             }
         });
-
+        //A spinner(dropdown) for selecting a distance filter, displays a different list based on the user's prefered unit
         Spinner distanceSpinner = layout.findViewById(R.id.distance_spinner);
         ArrayAdapter<CharSequence> adapter;
         if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
@@ -88,6 +92,13 @@ public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSe
         return layout;
     }
 
+    /**
+     * Method called when the user selects an item in the spinner. Changes the trails that are displayed based on distance
+     * @param parent The AdapterView where the selection happened
+     * @param view The view within the AdapterView that was clicked
+     * @param position The position of the view in the adapter
+     * @param id The row id of the item that is selected
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String distance = (String) parent.getItemAtPosition(position);
@@ -108,19 +119,25 @@ public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSe
 
     }
 
+    /**
+     * Shows trails within the provided distance in KM
+     * @param distanceKm
+     */
     private void showTrailsWithinDistance(double distanceKm){
         List<Trail> allUserTrails = trailDatabaseHelper.getAllTrailsForUser(user.getUid());
+        //If the distance is negative 1, show all trails
         if(distanceKm == -1){
             showTrails(allUserTrails);
         } else {
             List<Trail> trailsWithinRange = new ArrayList<>();
             Location currentUserLocation = ((MainActivity) getActivity()).getLocationUtils().getLastKnownLocation();
+            //If the user's location is currently unavailable, show all trails
             if (currentUserLocation == null) {
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Location current unavailable. Showing all trails.", Toast.LENGTH_SHORT);
                 toast.show();
                 showTrails(allUserTrails);
             } else {
-                System.out.println("Filtering out trails from user location: " + currentUserLocation.getLatitude() + ", " + currentUserLocation.getLongitude());
+                //Filters trails to only those within range
                 for (Trail trail : allUserTrails) {
                     LatLng trailStart = new LatLng(trail.getTrailStartLatitude(), trail.getTrailStartLongitude());
                     LatLng userLatLng = new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude());
@@ -133,13 +150,13 @@ public class ViewTrailsFragment extends Fragment implements AdapterView.OnItemSe
         }
     }
 
+    /**
+     * Updates the list of trails and updates the trailViewAdapter
+     * @param showingTrails
+     */
     private void showTrails(List<Trail> showingTrails){
-        System.out.println("Showing: " + showingTrails.size() + " trails");
         trails.clear();
         trails.addAll(showingTrails);
         trailViewAdapter.notifyDataSetChanged();
-        for(Trail trail: trails){
-            System.out.println("Showing trail: " + trail.getTrailName());
-        }
     }
 }

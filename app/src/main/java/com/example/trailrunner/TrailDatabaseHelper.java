@@ -11,8 +11,12 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SQLiteOpenHelper for the TrailDatabase
+ */
 public class TrailDatabaseHelper extends SQLiteOpenHelper {
 
+    //Sets up keys for use in the sql queries
     private static final String DATABASE_NAME = "trail_database";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "trails";
@@ -29,6 +33,10 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * When the TrailDatabaseHelper is created this method is called, it execs an SQL query to create the trail table
+     * @param database The database.
+     */
     @Override
     public void onCreate(SQLiteDatabase database) {
         String createTableQuery = "CREATE TABLE " + TABLE_NAME + "(" +
@@ -49,6 +57,10 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Adds a trail to the database
+     * @param trail
+     */
     public void addTrailToDatabase(Trail trail){
         SQLiteDatabase database = getWritableDatabase();
 
@@ -64,6 +76,11 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         database.close();
     }
 
+    /**
+     * Gets all trails from the database for the user with the supplied uid
+     * @param uid
+     * @return
+     */
     public List<Trail> getAllTrailsForUser(String uid){
         SQLiteDatabase database = getReadableDatabase();
 
@@ -82,12 +99,21 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         return trailList;
     }
 
+    /**
+     * Deletes all trails for the user with the provided uid
+     * @param uid
+     */
     public void deleteAllTrailsForUser(String uid){
         SQLiteDatabase database = getReadableDatabase();
         database.delete(TABLE_NAME,UID_KEY+"=?",new String[]{String.valueOf(uid)});
         database.close();
     }
 
+    /**
+     * Gets a trail with the specific id
+     * @param id
+     * @return
+     */
     public Trail getTrailById(String id){
         SQLiteDatabase database = getReadableDatabase();
 
@@ -103,8 +129,11 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         return trail;
     }
 
+    /**
+     * Updates a trail that is saved in the database
+     * @param trail
+     */
     public void updateTrail(Trail trail){
-        System.out.println("Updating trail");
         SQLiteDatabase database = getReadableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -120,12 +149,20 @@ public class TrailDatabaseHelper extends SQLiteOpenHelper {
         database.close();
     }
 
+    /**
+     * Deletes a trail from the database
+     * @param trail
+     */
     public void deleteTrail(Trail trail){
         SQLiteDatabase database = getReadableDatabase();
         database.delete(TABLE_NAME,ID_KEY+"=?",new String[]{String.valueOf(trail.getId())});
         database.close();
     }
 
+    /**
+     * Fetches all trails from the database
+     * @return
+     */
     public List<Trail> getAllTrails(){
         SQLiteDatabase database = getReadableDatabase();
 

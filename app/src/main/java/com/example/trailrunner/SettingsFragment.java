@@ -12,6 +12,9 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
+/**
+ * Fragment that displays the settings options to the user and allows them to set their settings
+ */
 public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private LinearLayout layout;
@@ -26,6 +29,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         ((MainActivity) getActivity()).showNavigation();
         layout = (LinearLayout) inflater.inflate(R.layout.fragment_settings, container, false);
         Spinner unitSpinner = layout.findViewById(R.id.unit_spinner);
+        //sets the options in the unit spinner(dropdown) to the strings in the unit_array
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getContext(),
                 R.array.unit_array,
@@ -34,7 +38,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(adapter);
         String selectedUnit = ((MainActivity)getActivity()).getSharedPreferences().getString(getString(R.string.user_pref_unit_key), "Metric");
-        System.out.println("Selected Unit: " + selectedUnit);
         unitSpinner.setSelection(adapter.getPosition(selectedUnit));
         unitSpinner.setOnItemSelectedListener(this);
         return layout;
@@ -42,9 +45,9 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //When the unit spinner is updated set the units in the user shared preferences
         if(parent.getId() == R.id.unit_spinner) {
             String unit = (String) parent.getItemAtPosition(position);
-            System.out.println("Setting UNIT " + unit);
             SharedPreferences.Editor editor = ((MainActivity)getActivity()).getSharedPreferences().edit();
             editor.putString(getString(R.string.user_pref_unit_key), unit);
             editor.apply();

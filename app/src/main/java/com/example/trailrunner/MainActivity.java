@@ -1,44 +1,34 @@
 package com.example.trailrunner;
 
-import static android.icu.number.NumberRangeFormatter.with;
-
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
-import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.List;
 import java.util.Random;
 
+/**
+ * MainActivity for the application. All fragments are displayed in it.
+ */
 public class MainActivity extends AppCompatActivity {
 
     public final String CHANNEL_ID = "TRAIL_RUNNER";
@@ -58,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         createNotificationChannel();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         trailDatabaseHelper = new TrailDatabaseHelper(this);
         sharedPreferences = this.getSharedPreferences(getString(R.string.user_prefs), Context.MODE_PRIVATE);
         locationUtils = new LocationUtils(this);
@@ -66,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnItemSelectedListener(navListener);
 
+        //Check if we have notification permissions, if not, request them
         boolean notificationGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
         if(!notificationGranted){
             ActivityCompat.requestPermissions(this, new String[]{
@@ -73,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new LoginFragment(trailDatabaseHelper, sharedPreferences)).commit();
+                .replace(R.id.fragment_container, new LoginFragment()).commit();
     }
 
     @Override
@@ -84,16 +74,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //Called when the bottom navigation view is touched
     private final BottomNavigationView.OnItemSelectedListener navListener = item -> {
 
         int itemId = item.getItemId();
+        //If the home button is pressed launch the user home fragment
         if (itemId == R.id.action_home) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new LoginFragment(trailDatabaseHelper, sharedPreferences)).commit();
+                    .replace(R.id.fragment_container, new UserHomeFragment()).commit();
         } else if (itemId == R.id.action_settings) {
+            //If the settings button is pressed launch the settings fragment
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new SettingsFragment()).commit();
         } else if (itemId == R.id.action_workout){
+            //If the workout button is pressed, launch the workout fragment
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new WorkoutFragment()).commit();
         }
@@ -101,62 +95,65 @@ public class MainActivity extends AppCompatActivity {
         return true;
     };
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection.
-        if(item.getItemId() == R.id.action_home){
-            //when the home button is clicked, switch the active fragment to the ListViewFragment
-            //that displays the list of houses in the RecyclerView
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new UserHomeFragment(trailDatabaseHelper, sharedPreferences)).commit();
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
-
+    /**
+     * On some fragments(notable the workout fragment) we don't want to display the BottomNavigationView
+     */
     public void hideNavigation(){
         navigationView.setVisibility(BottomNavigationView.GONE);
     }
 
+    /**
+     * On most fragments we do want to display the BottomNavigationView
+     */
     public void showNavigation(){
         navigationView.setVisibility(BottomNavigationView.VISIBLE);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == LocationUtils.PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            }
-        }
-    }
-
+    /**
+     * Returns the common locationUtils object
+     * @return LocationUtils
+     */
     public LocationUtils getLocationUtils(){
         return this.locationUtils;
     }
 
+    /**
+     * Returns the common TrailDatabaseHelper
+     * @return TrailDatabaseHelper
+     */
     public TrailDatabaseHelper getTrailDatabaseHelper(){
         return this.trailDatabaseHelper;
     }
 
+    /**
+     * Returns the common sharedPreferences object
+     * @return
+     */
     public SharedPreferences getSharedPreferences(){
         return this.sharedPreferences;
     }
 
+    /**
+     * Creates the apps notification channel
+     */
     private void createNotificationChannel() {
         CharSequence name = "trail_runner_channel";
         String description = "trail_runner_description";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
         channel.setDescription(description);
-        // Register the channel with the system; you can't change the importance
-        // or other notification behaviors after this.
+        // Register the channel with the system
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
 
     }
 
+    /**
+     * Sends a notification to user using the provided title, description and image
+     * @param title
+     * @param description
+     * @param imageId
+     */
     public void sendNotification(String title, String description, int imageId){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(imageId)
@@ -174,5 +171,4 @@ public class MainActivity extends AppCompatActivity {
             manager.notify(random.nextInt(), builder.build());
         }
     }
-
 }

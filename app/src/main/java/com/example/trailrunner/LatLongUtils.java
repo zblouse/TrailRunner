@@ -2,6 +2,9 @@ package com.example.trailrunner;
 
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Utils class for dealing with calculating distances between two LatLng objects
+ */
 public class LatLongUtils {
 
     //Uses the Haversine Formula(calculate distance between two points on a sphere)
@@ -25,10 +28,20 @@ public class LatLongUtils {
         return radiusEarth * c;
     }
 
+    /**
+     * Converts km to miles
+     * @param kilometers
+     * @return
+     */
     public static double convertKmToMiles(double kilometers){
         return kilometers * 0.6213711922;
     }
 
+    /**
+     * Converts miles to km
+     * @param miles
+     * @return
+     */
     public static double convertMilesToKm(double miles){
         return miles / 0.6213711922;
     }

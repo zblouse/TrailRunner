@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
+/**
+ * POJO for trail objects
+ */
 public class Trail implements Parcelable, Serializable {
 
     private int id;
@@ -18,6 +21,17 @@ public class Trail implements Parcelable, Serializable {
     private double trailStartLatitude;
     private double trailStartLongitude;
 
+    /**
+     * Constructor used when loading the Trail from the database, the id will already be set
+     * @param id
+     * @param trailName
+     * @param trailDistance
+     * @param trailDistanceUnit
+     * @param uid
+     * @param userTrailDistance
+     * @param trailStartLatitude
+     * @param trailStartLongitude
+     */
     public Trail(int id, String trailName, double trailDistance, String trailDistanceUnit, String uid, double userTrailDistance, double trailStartLatitude, double trailStartLongitude){
         this.id = id;
         this.trailName = trailName;
@@ -29,6 +43,16 @@ public class Trail implements Parcelable, Serializable {
         this.trailStartLongitude = trailStartLongitude;
     }
 
+    /**
+     * Constructor used to create a new Trail that has not been saved to the database yet
+     * @param trailName
+     * @param trailDistance
+     * @param trailDistanceUnit
+     * @param uid
+     * @param userTrailDistance
+     * @param trailStartLatitude
+     * @param trailStartLongitude
+     */
     public Trail(String trailName, double trailDistance, String trailDistanceUnit, String uid, double userTrailDistance, double trailStartLatitude, double trailStartLongitude){
         this.trailName = trailName;
         this.trailDistance = trailDistance;

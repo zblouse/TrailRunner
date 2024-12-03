@@ -1,6 +1,5 @@
 package com.example.trailrunner;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +13,14 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Fragment for displaying the user home. This screen consists of information about the user's current
+ * active trail and contains buttons for navigating to the other fragments
+ */
 public class UserHomeFragment extends Fragment {
 
     private TrailDatabaseHelper trailDatabaseHelper;
     private SharedPreferences sharedPreferences;
-
-    //TODO refactor all fragments to get these from the activity
-    public UserHomeFragment(TrailDatabaseHelper trailDatabaseHelper, SharedPreferences sharedPreferences){
-        super(R.layout.fragment_user_home);
-        this.trailDatabaseHelper = trailDatabaseHelper;
-        this.sharedPreferences = sharedPreferences;
-    }
 
     public UserHomeFragment(){
         super(R.layout.fragment_user_home);
@@ -59,7 +55,7 @@ public class UserHomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new ViewTrailsFragment(trailDatabaseHelper, sharedPreferences)).commit();
+                        .replace(R.id.fragment_container, new ViewTrailsFragment()).commit();
             }
         });
 
@@ -69,7 +65,7 @@ public class UserHomeFragment extends Fragment {
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new LoginFragment(trailDatabaseHelper, sharedPreferences)).commit();
+                        .replace(R.id.fragment_container, new LoginFragment()).commit();
             }
         });
 

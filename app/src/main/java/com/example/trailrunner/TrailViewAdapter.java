@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 /**
- * RecyclerView adapter for a product
+ * RecyclerView adapter for a trail
  */
 public class TrailViewAdapter extends RecyclerView.Adapter<TrailViewAdapter.ViewHolder> {
 
@@ -39,10 +39,17 @@ public class TrailViewAdapter extends RecyclerView.Adapter<TrailViewAdapter.View
         return new ViewHolder(view);
     }
 
+    /**
+     * Initializes the UI elements for the Trail in the recycler view
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     *        item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Trail trail = trails.get(position);
         String trailDistance = "";
+        //Checks the units in the user preferences and the units of the trail to figure out what number and unit to display
         if(sharedPreferences.getString(hostFragment.getString(R.string.user_pref_unit_key),"Metric").equals("Metric")){
             if(trail.getTrailDistanceUnit().equals("Miles")){
                 trailDistance += String.format("%.2f",LatLongUtils.convertMilesToKm(trail.getTrailDistance())) + " km";
@@ -63,7 +70,7 @@ public class TrailViewAdapter extends RecyclerView.Adapter<TrailViewAdapter.View
             @Override
             public void onClick(View view) {
                 hostFragment.getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new TrailManagerFragment(trailDatabaseHelper, sharedPreferences, trail)).commit();
+                        .replace(R.id.fragment_container, new TrailManagerFragment(trail)).commit();
             }
         });
 

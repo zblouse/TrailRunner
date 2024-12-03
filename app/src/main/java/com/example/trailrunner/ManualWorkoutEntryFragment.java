@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+/**
+ * Fragment to allow the user to manually enter workout information
+ */
 public class ManualWorkoutEntryFragment extends Fragment {
 
     private LinearLayout layout;
@@ -23,6 +26,7 @@ public class ManualWorkoutEntryFragment extends Fragment {
         super(R.layout.fragment_manual_workout_entry);
     }
 
+    //Method called when the fragment is created
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainActivity = ((MainActivity) getActivity());
@@ -32,13 +36,16 @@ public class ManualWorkoutEntryFragment extends Fragment {
         trailDatabaseHelper = mainActivity.getTrailDatabaseHelper();
         layout = (LinearLayout) inflater.inflate(R.layout.fragment_manual_workout_entry, container, false);
 
+        //Get a reference to all UI elements
         EditText distanceEditText = layout.findViewById(R.id.trail_distance);
+        //Check which units the user has selected, then display the right unit
         if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
             distanceEditText.setHint("Workout Distance (Miles)");
         } else {
             distanceEditText.setHint("Workout Distance (Kilometers)");
         }
 
+        //Clicking the saveWorkoutButton saves the entered workout in the database
         Button saveWorkoutButton = layout.findViewById(R.id.save_workout_button);
         saveWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,9 +61,8 @@ public class ManualWorkoutEntryFragment extends Fragment {
                         toast.show();
                     } else {
                         Trail activeTrail = trailDatabaseHelper.getTrailById(currentTrailId);
+                        //Updates the user's trail progress in the database
                         if(activeTrail != null){
-                            System.out.println("Current Trail Name: " + activeTrail.getTrailName());
-                            System.out.println("Trail Previous distance: " + activeTrail.getUserTrailDistance());
                             if(sharedPreferences.getString(getString(R.string.user_pref_unit_key), "Metric").equals("Imperial")) {
                                 if(activeTrail.getTrailDistanceUnit().equals("Miles")){
                                     activeTrail.setUserTrailDistance(activeTrail.getUserTrailDistance() + distance);
