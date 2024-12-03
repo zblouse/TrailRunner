@@ -1,18 +1,20 @@
-<!--Sets up the UI for the top navigation bar-->
+<!--Sets up the UI for the bottom navigation bar-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--Button to return to the home screen(list_view fragment)-->
+    <!--Button to launch the user home fragment-->
     <item
         android:id="@+id/action_home"
         android:icon="@drawable/home"
         android:title="home"
         app:showAsAction="ifRoom"/>
+    <!--Button to launch the workout fragment-->
     <item
         android:id="@+id/action_workout"
         android:icon="@drawable/run"
         android:title="workout"
         app:showAsAction="ifRoom"/>
+    <!--Button to return to the settings fragment-->
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/settings"
