@@ -3,7 +3,16 @@
     <style name="Base.Theme.TrailRunner" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textViewStyle">@style/RobotoSlabTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoSlabButtonStyle</item>
     </style>
 
     <style name="Theme.TrailRunner" parent="Base.Theme.TrailRunner" />
+    <style name="RobotoSlabTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/robotoslab</item>
+    </style>
+
+    <style name="RobotoSlabButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
 </resources>
